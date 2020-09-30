@@ -16,8 +16,130 @@
 	<body>
 		<div class="reveal">
 			<div class="slides">
-				<section>Slide 1</section>
-				<section>Slide 2</section>
+				<section>
+					<h1>Texturas y Render Target</h1>
+					<h5>Daverson Parra</h5>
+					<h5>Jesus Castelblanco</h5>
+					<h5>Brayan Perez</h5>
+					<footer>2020</footer>
+				</section>
+				<section>
+					<section><h1>Texturas</h1></section>
+					<section>
+						<h3>Introduccion</h3>
+						<p>xxxxxxxx x xxxxxxxxxxxxx xxxxxxxx
+						</p>
+					</section>
+					<section>
+						<h3>TextureLoader</h3>
+						</p>
+						<pre><code data-trim data-noescape>
+						const loader = new THREE.TextureLoader();
+ 
+						const material = new THREE.MeshBasicMaterial({
+						color: 0xFF8844,
+						map: loader.load('resources/images/wall.jpg'),
+						});
+						</code>
+						</pre>
+					</section>
+					<section>
+						<p>
+							Para este ejercicio se va a usar MeshBasicMaterial para no requerir el uso de las luces.
+						</p>
+						<div>
+							<pre><code data-trim data-noescape>
+							const geometry = new THREE.BoxGeometry(boxWidth, boxHeight, boxDepth);
+
+							const cubes = [];  // just an array we can use to rotate the cubes
+							const loader = new THREE.TextureLoader();
+						  
+							const material = new THREE.MeshBasicMaterial({
+							  map: loader.load('https://threejsfundamentals.org/threejs/resources/images/wall.jpg'),
+							});
+							const cube = new THREE.Mesh(geometry, material);
+							</code>
+							</pre>
+						</div>
+					</section>
+					<section
+						data-background-iframe="https://threejsfundamentals.org/threejs/threejs-textured-cube.html"
+						data-background-interactive>
+					</section>
+					<section>
+						<div class="threejs_center">
+							<div>
+							  <img src="https://threejsfundamentals.org/threejs/resources/images/flower-1.jpg" style="width: 100px;" class="border">
+							  <img src="https://threejsfundamentals.org/threejs/resources/images/flower-2.jpg" style="width: 100px;" class="border">
+							  <img src="https://threejsfundamentals.org/threejs/resources/images/flower-3.jpg" style="width: 100px;" class="border">
+							</div>
+							<div>
+							  <img src="https://threejsfundamentals.org/threejs/resources/images/flower-4.jpg" style="width: 100px;" class="border">
+							  <img src="https://threejsfundamentals.org/threejs/resources/images/flower-5.jpg" style="width: 100px;" class="border">
+							  <img src="https://threejsfundamentals.org/threejs/resources/images/flower-6.jpg" style="width: 100px;" class="border">
+							</div>
+						</div>
+						<div>
+						<pre><code data-trim data-noescape>
+						const loader = new THREE.TextureLoader();
+ 
+						const material = new THREE.MeshBasicMaterial({
+						map: loader.load('resources/images/wall.jpg'),
+						});
+						const materials = [
+						new THREE.MeshBasicMaterial({map: loader.load('resources/images/flower-1.jpg')}),
+						new THREE.MeshBasicMaterial({map: loader.load('resources/images/flower-2.jpg')}),
+						new THREE.MeshBasicMaterial({map: loader.load('resources/images/flower-3.jpg')}),
+						new THREE.MeshBasicMaterial({map: loader.load('resources/images/flower-4.jpg')}),
+						new THREE.MeshBasicMaterial({map: loader.load('resources/images/flower-5.jpg')}),
+						new THREE.MeshBasicMaterial({map: loader.load('resources/images/flower-6.jpg')}),
+						];
+						const cube = new THREE.Mesh(geometry, material);
+						const cube = new THREE.Mesh(geometry, materials);
+						</code>
+						</pre>
+						</div>
+					</section>
+					<section data-background-iframe="https://threejsfundamentals.org/threejs/threejs-textured-cube-6-textures.html"	data-background-interactive></section>
+				</section>
+				<section>
+					<section>
+						<h1>Caracteristicas de las texturas</h1>
+					</section>
+					<section>
+						<h3>Uso de la memoria</h3>
+						<p>
+							Daverson	
+						</p>
+					</section>
+					<section>
+						<h3>JPG vs PNG</h3>
+						<p>
+							Daverson
+						</p>
+					</section>
+					<section>
+						<h3>Filtering and Mips</h3>
+						<p>
+							Daverson
+						</p>
+					</section>
+					<section>
+						<h3>Repeating, offseting, rotating, wrapping a texture</h3>
+						<p>
+							Brayan
+						</p>
+					</section>
+				</section>
+				<section>
+					<section><h1>Render Target</h1></section>
+					<section>Brayan</section>
+					<section
+						data-background-iframe="https://threejsfundamentals.org/threejs/threejs-render-target.html"
+						data-background-interactive>
+						</section>
+				</section>
+				</div>
 			</div>
 		</div>
 
