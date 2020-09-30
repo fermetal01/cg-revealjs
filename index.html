@@ -1,152 +1,94 @@
 <!doctype html>
 <html>
-	<head>
-		<meta charset="utf-8">
-		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
-		<title>reveal.js</title>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
-		<link rel="stylesheet" href="dist/reset.css">
-		<link rel="stylesheet" href="dist/reveal.css">
-		<link rel="stylesheet" href="dist/theme/black.css" id="theme">
+	<title>reveal.js</title>
 
-		<!-- Theme used for syntax highlighted code -->
-		<link rel="stylesheet" href="plugin/highlight/monokai.css" id="highlight-theme">
-	</head>
-	<body>
-		<div class="reveal">
-			<div class="slides">
+	<link rel="stylesheet" href="dist/reset.css">
+	<link rel="stylesheet" href="dist/reveal.css">
+	<link rel="stylesheet" href="dist/theme/black.css" id="theme">
+
+	<!-- Theme used for syntax highlighted code -->
+	<link rel="stylesheet" href="plugin/highlight/monokai.css" id="highlight-theme">
+</head>
+
+<body>
+	<div class="reveal">
+		<div class="slides">
+			<section>
+				<h1>Texturas y Render Target</h1>
+				<h5>Daverson Parra</h5>
+				<h5>Jesus Castelblanco</h5>
+				<h5>Brayan Perez</h5>
+				<footer>2020</footer>
+			</section>
+			<section>
 				<section>
-					<h1>Texturas y Render Target</h1>
-					<h5>Daverson Parra</h5>
-					<h5>Jesus Castelblanco</h5>
-					<h5>Brayan Perez</h5>
-					<footer>2020</footer>
+					<h1>Texturas</h1>
 				</section>
 				<section>
-					<section><h1>Texturas</h1></section>
-					<section>
-						<h3>Introduccion</h3>
-						<p>Una textura es una imagen de mapa de bits que se 
-							usa para cubrir la superficie de un objeto virtual, 
-							ya sea tridimensional o bidimensional, con un programa de gráficos especial. 
-							Multitexturizado es el uso de más de una textura a la vez en un polígono.
-						</p>
-					</section>
-					<section>
-						<h3>TextureLoader</h3>
-						<p>
-							Es una de las formas mas facil de implementacion para cargar una textura, en este caso hacemos la creacion
-							de TextureLoader.
-							Hacemos el llamaoda del metodo load con la URL de una imagen y establecemos el mapa de propiedad del
-							material.
-						</p>
-
-						<pre><code data-trim data-noescape>
-
-							// instanciar un cargador - cargar un recurso - URL del recurso
-							var texture = new THREE.TextureLoader().load( 'textures/land_ocean_ice_cloud_2048.jpg' );
-							
-							//la textura para la creación de material
-							var material = new THREE.MeshBasicMaterial( { map: texture } );
+					<h3>Introduccion</h3>
+					<p>xxxxxxxx x xxxxxxxxxxxxx xxxxxxxx
+					</p>
+				</section>
+				<section>
+					<h3>TextureLoader</h3>
+					</p>
+					<pre><code data-trim data-noescape>
+						const loader = new THREE.TextureLoader();
+ 
+						const material = new THREE.MeshBasicMaterial({
+						color: 0xFF8844,
+						map: loader.load('resources/images/wall.jpg'),
+						});
 						</code>
 						</pre>
-					</section>
-					<section>
-						<p>
-						En el siguiente ejemplo de codigo ya realizamos la implemtancion de matrial geometria y porpiedades para la creacion 
-						de la escena donde se aplicara la textura.
-						</p>
-						<div>
-							<pre><code data-trim data-noescape>
-								import * as THREE from 'https://threejsfundamentals.org/threejs/resources/threejs/r119/build/three.module.js';
+				</section>
+				<section>
+					<p>
+						Para este ejercicio se va a usar MeshBasicMaterial para no requerir el uso de las luces.
+					</p>
+					<div>
+						<pre><code data-trim data-noescape>
+							const geometry = new THREE.BoxGeometry(boxWidth, boxHeight, boxDepth);
 
-								function main() {
-								  const canvas = document.querySelector('#c');
-								  const renderer = new THREE.WebGLRenderer({canvas});
-								
-								  const fov = 75;
-								  const aspect = 2;  // the canvas default
-								  const near = 0.1;
-								  const far = 5;
-								  const camera = new THREE.PerspectiveCamera(fov, aspect, near, far);
-								  camera.position.z = 2;
-								
-								  const scene = new THREE.Scene();
-								
-								  const boxWidth = 1;
-								  const boxHeight = 1;
-								  const boxDepth = 1;
-								  const geometry = new THREE.BoxGeometry(boxWidth, boxHeight, boxDepth);
-								
-								  const cubes = [];  // just an array we can use to rotate the cubes
-								  const loader = new THREE.TextureLoader();
-								
-								  const material = new THREE.MeshBasicMaterial({
-									map: loader.load('https://threejsfundamentals.org/threejs/resources/images/wall.jpg'),
-								  });
-								  const cube = new THREE.Mesh(geometry, material);
-								  scene.add(cube);
-								  cubes.push(cube);  // add to our list of cubes to rotate
-								
-								  function resizeRendererToDisplaySize(renderer) {
-									const canvas = renderer.domElement;
-									const width = canvas.clientWidth;
-									const height = canvas.clientHeight;
-									const needResize = canvas.width !== width || canvas.height !== height;
-									if (needResize) {
-									  renderer.setSize(width, height, false);
-									}
-									return needResize;
-								  }
-								
-								  function render(time) {
-									time *= 0.001;
-								
-									if (resizeRendererToDisplaySize(renderer)) {
-									  const canvas = renderer.domElement;
-									  camera.aspect = canvas.clientWidth / canvas.clientHeight;
-									  camera.updateProjectionMatrix();
-									}
-								
-									cubes.forEach((cube, ndx) => {
-									  const speed = .2 + ndx * .1;
-									  const rot = time * speed;
-									  cube.rotation.x = rot;
-									  cube.rotation.y = rot;
-									});
-								
-									renderer.render(scene, camera);
-								
-									requestAnimationFrame(render);
-								  }
-								
-								  requestAnimationFrame(render);
-								}
-								
-								main();								
+							const cubes = [];  // just an array we can use to rotate the cubes
+							const loader = new THREE.TextureLoader();
+						  
+							const material = new THREE.MeshBasicMaterial({
+							  map: loader.load('https://threejsfundamentals.org/threejs/resources/images/wall.jpg'),
+							});
+							const cube = new THREE.Mesh(geometry, material);
 							</code>
 							</pre>
-						</div>
-					</section>
-					<section
-						data-background-iframe="https://threejsfundamentals.org/threejs/threejs-textured-cube.html"
-						data-background-interactive>
-					</section>
-					<section>
-						<div class="threejs_center">
-							<div>
-							  <img src="https://threejsfundamentals.org/threejs/resources/images/flower-1.jpg" style="width: 100px;" class="border">
-							  <img src="https://threejsfundamentals.org/threejs/resources/images/flower-2.jpg" style="width: 100px;" class="border">
-							  <img src="https://threejsfundamentals.org/threejs/resources/images/flower-3.jpg" style="width: 100px;" class="border">
-							</div>
-							<div>
-							  <img src="https://threejsfundamentals.org/threejs/resources/images/flower-4.jpg" style="width: 100px;" class="border">
-							  <img src="https://threejsfundamentals.org/threejs/resources/images/flower-5.jpg" style="width: 100px;" class="border">
-							  <img src="https://threejsfundamentals.org/threejs/resources/images/flower-6.jpg" style="width: 100px;" class="border">
-							</div>
+					</div>
+				</section>
+				<section data-background-iframe="https://threejsfundamentals.org/threejs/threejs-textured-cube.html"
+					data-background-interactive>
+				</section>
+				<section>
+					<div class="threejs_center">
+						<div>
+							<img src="https://threejsfundamentals.org/threejs/resources/images/flower-1.jpg"
+								style="width: 100px;" class="border">
+							<img src="https://threejsfundamentals.org/threejs/resources/images/flower-2.jpg"
+								style="width: 100px;" class="border">
+							<img src="https://threejsfundamentals.org/threejs/resources/images/flower-3.jpg"
+								style="width: 100px;" class="border">
 						</div>
 						<div>
+							<img src="https://threejsfundamentals.org/threejs/resources/images/flower-4.jpg"
+								style="width: 100px;" class="border">
+							<img src="https://threejsfundamentals.org/threejs/resources/images/flower-5.jpg"
+								style="width: 100px;" class="border">
+							<img src="https://threejsfundamentals.org/threejs/resources/images/flower-6.jpg"
+								style="width: 100px;" class="border">
+						</div>
+					</div>
+					<div>
 						<pre><code data-trim data-noescape>
 						const loader = new THREE.TextureLoader();
  
@@ -165,65 +107,148 @@
 						const cube = new THREE.Mesh(geometry, materials);
 						</code>
 						</pre>
-						</div>
-					</section>
-					<section data-background-iframe="https://threejsfundamentals.org/threejs/threejs-textured-cube-6-textures.html"	data-background-interactive></section>
+					</div>
+				</section>
+				<section
+					data-background-iframe="https://threejsfundamentals.org/threejs/threejs-textured-cube-6-textures.html"
+					data-background-interactive></section>
+			</section>
+			<section>
+				<section>
+					<h1>Caracteristicas de las texturas</h1>
 				</section>
 				<section>
-					<section>
-						<h1>Caracteristicas de las texturas</h1>
-					</section>
-					<section>
-						<h3>Uso de la memoria</h3>
-						<p>
-							Daverson	
-						</p>
-					</section>
-					<section>
-						<h3>JPG vs PNG</h3>
-						<p>
-							Daverson
-						</p>
-					</section>
-					<section>
-						<h3>Filtering and Mips</h3>
-						<p>
-							Daverson
-						</p>
-					</section>
-					<section>
-						<h3>Repeating, offseting, rotating, wrapping a texture</h3>
-						<p>
-							Brayan
-						</p>
-					</section>
+					<h3>Uso de la memoria</h3>
+					<p>
+						En THREE.js el espacio que ocupa una textura se determina de la siguiente forma
+					<pre><code data-trim data-noescape>
+								width * height * 4 * 1.33bytes
+								  </code></pre>
+					La compresión de la imagen no influye sobre el peso, unicamente su alto y ancho.
+					</p>
+				</section>
+				<section id="weightexample">
+					<img src="https://cdn.pixabay.com/photo/2014/09/24/16/28/bricks-459299__340.jpg"
+						alt="https://cdn.pixabay.com/photo/2014/09/24/16/28/bricks-459299__340.jpg">
+					<p>
+						Por ejemplo para esta textura su peso será:
+					<pre><code data-trim data-noescape>
+							{{width}} * {{height}} * 4 * 1.33 = {{result}}MB
+						</code>
+					</pre>
+					</p>
 				</section>
 				<section>
-					<section><h1>Render Target</h1></section>
-					<section>Brayan</section>
-					<section
-						data-background-iframe="https://threejsfundamentals.org/threejs/threejs-render-target.html"
-						data-background-interactive>
-						</section>
+					<h3>JPG vs PNG</h3>
+					<p>
+						Debido a que las texturas en sí son imagenes, por lo general exportados como JPG o PNG, es
+						valido considerar que las imagenes PNG admiten transparencia lo cual incrementa su peso, y
+						aunque frente a la descarga pueden tardar más para
+						WebGL el consumo de memoria es indiferente al cargarse como textura.
+					</p>
 				</section>
-				</div>
-			</div>
+				<section>
+					<h3>Filtering and Mips</h3>
+					<p>
+						Al tener una textura aplicada a una geometria u objeto cuyo tamaño es inferior a
+						la textura, la GPU realizará la plicación mediante Mipmaps.
+						Mipmap son copias de la textura con la mitad de su ancho y alto que su mip map anterior,
+						combinando sus pixeles hasta tener un mip de 1x1.
+
+						<img src="https://threejsfundamentals.org/threejs/lessons/resources/images/mipmap-low-res-enlarged.png"
+							alt="https://threejsfundamentals.org/threejs/lessons/resources/images/mipmap-low-res-enlarged.png">
+					</p>
+				</section>
+				<section>
+					<p>
+						Sí el tamaño de la textura debe ser escalado a un tamaño mayor o menor que su tamaño original,
+						se
+						utilizarán los filtros Lineal o Más cercano.
+					<pre><code data-trim data-noescape>//Si el tamaño es superior se debe establecer 
+//la propiedad texture.magFilter
+THREE.LinearFilter
+THREE.NearestFilter</code></pre>
+
+					<pre><code data-trim data-noescape>//Si el tamaño es superior se debe establecer 
+//la propiedad texture.minFilter
+THREE.NearestFilter
+THREE.LinearFilter
+THREE.NearestMipmapNearestFilter
+THREE.NearestMipmapLinearFilter
+THREE.LinearMipmapNearestFilter
+THREE.LinearMipmapLinearFilter</code>
+					</pre>
+					</p>
+				</section>
+				<section data-background-iframe="https://threejs.org/examples/webgl_materials_texture_filters.html"
+					data-background-interactive>
+
+				</section>
+				<section>
+					<h3>Repeating, offseting, rotating, wrapping a texture</h3>
+					<p>
+						Brayan
+					</p>
+				</section>
+			</section>
+			<section>
+				<section>
+					<h1>Render Target</h1>
+				</section>
+				<section>Brayan</section>
+				<section data-background-iframe="https://threejsfundamentals.org/threejs/threejs-render-target.html"
+					data-background-interactive>
+				</section>
+			</section>
 		</div>
+	</div>
+	</div>
 
-		<script src="dist/reveal.js"></script>
-		<script src="plugin/notes/notes.js"></script>
-		<script src="plugin/markdown/markdown.js"></script>
-		<script src="plugin/highlight/highlight.js"></script>
-		<script>
-			// More info about initialization & config:
-			// - https://revealjs.com/initialization/
-			// - https://revealjs.com/config/
-			Reveal.initialize({
-				hash: true,
+	<script src="dist/reveal.js"></script>
+	<script src="plugin/notes/notes.js"></script>
+	<script src="plugin/markdown/markdown.js"></script>
+	<script src="plugin/highlight/highlight.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/vue"></script>
+	<script>
+		// More info about initialization & config:
+		// - https://revealjs.com/initialization/
+		// - https://revealjs.com/config/
+		Reveal.initialize({
+			hash: true,
 
-				// Learn about plugins: https://revealjs.com/plugins/
-				plugins: [ RevealMarkdown, RevealHighlight, RevealNotes ]
-			});
-		</script>
-	</body>
+			// Learn about plugins: https://revealjs.com/plugins/
+			plugins: [RevealMarkdown, RevealHighlight, RevealNotes]
+		});
+
+
+		var app = new Vue({
+			el: '#weightexample',
+			data: {
+				width: 522,
+				height: 340,
+			},
+			created() {
+				this.calcularPeso()
+			},
+			computed: {
+				result() {
+					return Math.round((3024 * 3761 * 4 * 1.33) / Math.pow(1024, 2))
+				}
+			},
+			methods: {
+				calcularPeso() {
+					var vm = this
+					const img = new Image();
+					img.onload = function () {
+						vm.width = this.width;
+						vm.height = this.height;
+					}
+					img.src = 'https://cdn.pixabay.com/photo/2014/09/24/16/28/bricks-459299__340.jpg';
+				}
+			}
+		})
+
+	</script>
+</body>
+
 </html>
