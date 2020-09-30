@@ -31,37 +31,106 @@
 				</section>
 				<section>
 					<h3>Introduccion</h3>
-					<p>xxxxxxxx x xxxxxxxxxxxxx xxxxxxxx
+					<p>Una textura es una imagen de mapa de bits que se
+						usa para cubrir la superficie de un objeto virtual,
+						ya sea tridimensional o bidimensional, con un programa de gráficos especial.
+						Multitexturizado es el uso de más de una textura a la vez en un polígono.
 					</p>
 				</section>
 				<section>
 					<h3>TextureLoader</h3>
+					<p>
+						Es una de las formas mas facil de implementacion para cargar una textura, en este caso hacemos
+						la creacion
+						de TextureLoader.
+						Hacemos el llamaoda del metodo load con la URL de una imagen y establecemos el mapa de propiedad
+						del
+						material.
 					</p>
 					<pre><code data-trim data-noescape>
-						const loader = new THREE.TextureLoader();
- 
-						const material = new THREE.MeshBasicMaterial({
-						color: 0xFF8844,
-						map: loader.load('resources/images/wall.jpg'),
-						});
+
+							// instanciar un cargador - cargar un recurso - URL del recurso
+							var texture = new THREE.TextureLoader().load( 'textures/land_ocean_ice_cloud_2048.jpg' );
+
+							//la textura para la creación de material
+							var material = new THREE.MeshBasicMaterial( { map: texture } );
 						</code>
-						</pre>
+                        </pre>
 				</section>
 				<section>
 					<p>
-						Para este ejercicio se va a usar MeshBasicMaterial para no requerir el uso de las luces.
+						En el siguiente ejemplo de codigo ya realizamos la implemtancion de matrial geometria y
+						porpiedades para la creacion
+						de la escena donde se aplicara la textura.
 					</p>
 					<div>
 						<pre><code data-trim data-noescape>
+                        import * as THREE from 'https://threejsfundamentals.org/threejs/resources/threejs/r119/build/three.module.js';
+
+								function main() {
+								  const canvas = document.querySelector('#c');
+								  const renderer = new THREE.WebGLRenderer({canvas});
+
+								  const fov = 75;
+								  const aspect = 2;  // the canvas default
+								  const near = 0.1;
+								  const far = 5;
+								  const camera = new THREE.PerspectiveCamera(fov, aspect, near, far);
+								  camera.position.z = 2;
+
+								  const scene = new THREE.Scene();
+
+								  const boxWidth = 1;
+								  const boxHeight = 1;
+								  const boxDepth = 1;
 							const geometry = new THREE.BoxGeometry(boxWidth, boxHeight, boxDepth);
 
 							const cubes = [];  // just an array we can use to rotate the cubes
 							const loader = new THREE.TextureLoader();
-						  
+
 							const material = new THREE.MeshBasicMaterial({
 							  map: loader.load('https://threejsfundamentals.org/threejs/resources/images/wall.jpg'),
 							});
 							const cube = new THREE.Mesh(geometry, material);
+                            scene.add(cube);
+								  cubes.push(cube);  // add to our list of cubes to rotate
+
+								  function resizeRendererToDisplaySize(renderer) {
+									const canvas = renderer.domElement;
+									const width = canvas.clientWidth;
+									const height = canvas.clientHeight;
+									const needResize = canvas.width !== width || canvas.height !== height;
+									if (needResize) {
+									  renderer.setSize(width, height, false);
+									}
+									return needResize;
+								  }
+
+								  function render(time) {
+									time *= 0.001;
+
+									if (resizeRendererToDisplaySize(renderer)) {
+									  const canvas = renderer.domElement;
+									  camera.aspect = canvas.clientWidth / canvas.clientHeight;
+									  camera.updateProjectionMatrix();
+									}
+
+									cubes.forEach((cube, ndx) => {
+									  const speed = .2 + ndx * .1;
+									  const rot = time * speed;
+									  cube.rotation.x = rot;
+									  cube.rotation.y = rot;
+									});
+
+									renderer.render(scene, camera);
+
+									requestAnimationFrame(render);
+								  }
+
+								  requestAnimationFrame(render);
+								}
+
+								main();	
 							</code>
 							</pre>
 					</div>
@@ -91,7 +160,7 @@
 					<div>
 						<pre><code data-trim data-noescape>
 						const loader = new THREE.TextureLoader();
- 
+
 						const material = new THREE.MeshBasicMaterial({
 						map: loader.load('resources/images/wall.jpg'),
 						});
